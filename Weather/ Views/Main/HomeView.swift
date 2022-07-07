@@ -22,6 +22,7 @@ struct HomeView: View {
         (bottomSheetTranslation - BottomSheetPosition.middle.rawValue) /
         (BottomSheetPosition.top.rawValue - BottomSheetPosition.middle.rawValue)
     }
+
     
     var body: some View {
         NavigationView {
@@ -37,12 +38,12 @@ struct HomeView: View {
                     Image("Background")
                         .resizable()
                         .ignoresSafeArea()
-                        .offset(y: -bottomSheetTranslationProrated * imageOffset)
+                        .offset(y: bottomSheetTranslationProrated < 0 ? 0 * imageOffset : bottomSheetTranslationProrated > 1 ? -1 * imageOffset : -bottomSheetTranslationProrated * imageOffset)
         //            MARK: House Image
                     Image("House")
                         .frame(maxHeight: .infinity, alignment: .top)
                         .padding(.top, 257)
-                        .offset(y: -bottomSheetTranslationProrated * imageOffset)
+                        .offset(y: bottomSheetTranslationProrated < 0 ? 0 * imageOffset : bottomSheetTranslationProrated > 1 ? -1 * imageOffset : -bottomSheetTranslationProrated * imageOffset)
                     VStack(spacing: -10 * (1 - bottomSheetTranslationProrated)) {
                         Text("Москва")
                             .font(.largeTitle)
@@ -74,12 +75,11 @@ struct HomeView: View {
                             }
                         }
                     }
-            
         //            MARK: Tab Bar
                     TabBar(action: {
                         bottomSheetPosition = .top
                     })
-                    .offset(y: bottomSheetTranslationProrated * 115)
+                    .offset(y: bottomSheetTranslationProrated < 0 ? 0 * 115 : bottomSheetTranslationProrated > 1 ? 1 * 115 : bottomSheetTranslationProrated * 115)
                 }
             }
             .navigationBarHidden(true)
